@@ -3,6 +3,7 @@ import { UserRole } from '@prisma/client';
 import NextAuth from 'next-auth';
 
 import authConfig from '@/auth.config';
+import { getTwoFactorConfirmationByUserId } from '@/data/two-factor-confirmation';
 import { getUserById } from '@/data/user';
 import { db } from '@/lib/db';
 
@@ -33,7 +34,15 @@ export const {
       const existingUser = await getUserById(user.id);
       if (!existingUser?.emailVerified) return false;
 
-      // TODO: Add 2FA check.
+      if (existingUser.twoFactorEnabled) {
+        const confirmation = await getTwoFactorConfirmationByUserId(user.id);
+        if (!confirmation) return false;
+
+        // Delete the 2FA confirmation for the next sign in.
+        await db.twoFactorConfirmation.delete({
+          where: { id: confirmation.id },
+        });
+      }
       return true;
     },
     async session({ session, token }) {
