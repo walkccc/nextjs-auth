@@ -52,6 +52,9 @@ export const {
       if (session.user && token.role) {
         session.user.role = token.role as UserRole;
       }
+      if (session.user) {
+        session.user.twoFactorEnabled = token.twoFactorEnabled as boolean;
+      }
       return session;
     },
     async jwt({ token }) {
@@ -60,7 +63,11 @@ export const {
       const existingUser = await getUserById(token.sub);
       if (!existingUser) return token;
 
-      return { ...token, role: existingUser.role };
+      return {
+        ...token,
+        role: existingUser.role,
+        twoFactorEnabled: existingUser.twoFactorEnabled,
+      };
     },
   },
   adapter: PrismaAdapter(db),
