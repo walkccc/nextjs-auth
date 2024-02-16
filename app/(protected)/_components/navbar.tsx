@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 export const Navbar = () => {
   const pathname = usePathname();
   return (
-    <nav className="w-11/12 md:w-[600px] bg-secondary flex flex-wrap justify-between items-center p-2 rounded-xl shadow-sm">
+    <nav className="w-11/12 md:w-[600px] flex justify-between items-center p-2 mt-5 rounded-xl shadow-none">
       <div className="flex gap-x-2">
         <Button
           size="sm"
