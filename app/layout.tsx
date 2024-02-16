@@ -1,6 +1,6 @@
 import './globals.css';
 
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import { SessionProvider } from 'next-auth/react';
 
@@ -8,6 +8,12 @@ import { auth } from '@/auth';
 import { Toaster } from '@/components/ui/sonner';
 
 const inter = Inter({ subsets: ['latin'] });
+
+export const viewport: Viewport = {
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 export const metadata: Metadata = {
   title: 'Create Next App',
